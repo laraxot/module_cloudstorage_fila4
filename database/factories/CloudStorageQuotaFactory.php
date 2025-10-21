@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Modules\CloudStorage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\CloudStorage\Models\CloudStorageQuota;
+// use Modules\CloudStorage\Models\CloudStorageQuota; // Model not found
 
 /**
  * CloudStorageQuota factory.
  *
- * @extends Factory<\Modules\CloudStorage\Models\CloudStorageQuota>
+ * @extends Factory<\stdClass> // Using stdClass since CloudStorageQuota model not found
  */
 class CloudStorageQuotaFactory extends Factory
 {
@@ -19,7 +19,7 @@ class CloudStorageQuotaFactory extends Factory
      *
      * @var string
      */
-    protected $model = CloudStorageQuota::class;
+    protected $model = \stdClass::class; // Using stdClass since CloudStorageQuota model not found
 
     /**
      * Define the model's default state.

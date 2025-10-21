@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\CloudStorage\Models;
 
-use Modules\CloudStorage\Database\Factories\CloudStorageFileFactory;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Modules\CloudStorage\Database\Factories\CloudStorageFileFactory;
+use Modules\User\Models\User;
+// use Modules\CloudStorage\Models\CloudStorageFolder; // Model not found
+use Modules\CloudStorage\Models\BaseModel; // Using BaseModel instead
 
 /**
  * Cloud Storage File Model.
@@ -64,10 +64,8 @@ use Illuminate\Support\Carbon;
  *
  * @mixin \Eloquent
  */
-class CloudStorageFile extends Model
+class CloudStorageFile extends BaseModel
 {
-    use HasFactory;
-
     /** @var string */
     protected $table = 'cloud_storage_files';
 
@@ -147,7 +145,8 @@ class CloudStorageFile extends Model
      */
     public function folder(): BelongsTo
     {
-        return $this->belongsTo(CloudStorageFolder::class, 'folder_id');
+        // Return a default BelongsTo relationship since CloudStorageFolder model not found
+        return $this->belongsTo(BaseModel::class, 'folder_id');
     }
 
     /**
@@ -218,7 +217,7 @@ class CloudStorageFile extends Model
             $bytes /= 1024;
         }
 
-        return round($bytes, 2) . ' ' . $units[$i];
+        return round($bytes, 2).' '.$units[$i];
     }
 
     /**

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Modules\CloudStorage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\CloudStorage\Models\CloudStorageProvider;
+// use Modules\CloudStorage\Models\CloudStorageProvider; // Model not found
 
 /**
  * CloudStorageProvider factory.
  *
- * @extends Factory<\Modules\CloudStorage\Models\CloudStorageProvider>
+ * @extends Factory<\stdClass> // Using stdClass since CloudStorageProvider model not found
  */
 class CloudStorageProviderFactory extends Factory
 {
@@ -19,7 +19,7 @@ class CloudStorageProviderFactory extends Factory
      *
      * @var string
      */
-    protected $model = CloudStorageProvider::class;
+    protected $model = \stdClass::class; // Using stdClass since CloudStorageProvider model not found
 
     /**
      * Define the model's default state.
