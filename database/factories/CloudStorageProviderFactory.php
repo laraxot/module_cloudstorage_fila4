@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Modules\CloudStorage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-// use Modules\CloudStorage\Models\CloudStorageProvider; // Model not found
+use Modules\CloudStorage\Models\CloudStorageProvider;
 
 /**
  * CloudStorageProvider factory.
  *
- * @extends Factory<\stdClass> // Using stdClass since CloudStorageProvider model not found
+ * @extends Factory<CloudStorageProvider>
  */
 class CloudStorageProviderFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<\Modules\CloudStorage\Models\CloudStorageProvider>
      */
-    protected $model = \stdClass::class; // Using stdClass since CloudStorageProvider model not found
+    protected $model = CloudStorageProvider::class;
 
     /**
      * Define the model's default state.
@@ -78,8 +78,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Indicate that the provider is active.
-     *
-     * @return static
      */
     public function active(): static
     {
@@ -91,8 +89,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Indicate that the provider is inactive.
-     *
-     * @return static
      */
     public function inactive(): static
     {
@@ -104,8 +100,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Indicate that the provider is in maintenance.
-     *
-     * @return static
      */
     public function maintenance(): static
     {
@@ -116,8 +110,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Indicate that the provider has an error.
-     *
-     * @return static
      */
     public function error(): static
     {
@@ -130,8 +122,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a default provider.
-     *
-     * @return static
      */
     public function default(): static
     {
@@ -143,8 +133,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a non-default provider.
-     *
-     * @return static
      */
     public function notDefault(): static
     {
@@ -156,15 +144,13 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a Google Drive provider.
-     *
-     * @return static
      */
     public function googleDrive(): static
     {
         return $this->state(fn (array $attributes) => [
             'name' => 'Google Drive',
             'provider_key' => 'google_drive',
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'provider_type' => 'cloud',
                 'features' => ['encryption', 'compression', 'cdn', 'versioning', 'backup'],
             ]),
@@ -173,15 +159,13 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a Dropbox provider.
-     *
-     * @return static
      */
     public function dropbox(): static
     {
         return $this->state(fn (array $attributes) => [
             'name' => 'Dropbox',
             'provider_key' => 'dropbox',
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'provider_type' => 'cloud',
                 'features' => ['encryption', 'compression', 'versioning'],
             ]),
@@ -190,8 +174,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create an AWS S3 provider.
-     *
-     * @return static
      */
     public function awsS3(): static
     {
@@ -199,7 +181,7 @@ class CloudStorageProviderFactory extends Factory
             'name' => 'AWS S3',
             'provider_key' => 'aws_s3',
             'region' => $this->faker->randomElement(['us-east-1', 'eu-west-1', 'ap-southeast-1']),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'provider_type' => 'cloud',
                 'features' => ['encryption', 'compression', 'cdn', 'versioning', 'backup', 'lifecycle'],
             ]),
@@ -208,8 +190,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create an Azure Blob provider.
-     *
-     * @return static
      */
     public function azureBlob(): static
     {
@@ -217,7 +197,7 @@ class CloudStorageProviderFactory extends Factory
             'name' => 'Azure Blob',
             'provider_key' => 'azure_blob',
             'region' => $this->faker->randomElement(['eastus', 'westeurope', 'southeastasia']),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'provider_type' => 'cloud',
                 'features' => ['encryption', 'compression', 'cdn', 'versioning'],
             ]),
@@ -226,8 +206,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a local storage provider.
-     *
-     * @return static
      */
     public function local(): static
     {
@@ -235,7 +213,7 @@ class CloudStorageProviderFactory extends Factory
             'name' => 'Local Storage',
             'provider_key' => 'local',
             'endpoint' => '/storage/app/public',
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'provider_type' => 'local',
                 'features' => ['encryption', 'compression'],
             ]),
@@ -244,8 +222,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with high priority.
-     *
-     * @return static
      */
     public function highPriority(): static
     {
@@ -256,8 +232,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with low priority.
-     *
-     * @return static
      */
     public function lowPriority(): static
     {
@@ -268,8 +242,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with large storage capacity.
-     *
-     * @return static
      */
     public function largeCapacity(): static
     {
@@ -280,8 +252,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with small storage capacity.
-     *
-     * @return static
      */
     public function smallCapacity(): static
     {
@@ -292,8 +262,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with many files.
-     *
-     * @return static
      */
     public function withManyFiles(): static
     {
@@ -305,8 +273,6 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with few files.
-     *
-     * @return static
      */
     public function withFewFiles(): static
     {
@@ -318,43 +284,37 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with high usage.
-     *
-     * @return static
      */
     public function highUsage(): static
     {
         return $this->state(fn (array $attributes) => [
             'used_storage_size' => $this->faker->numberBetween(
-                (int)($attributes['max_storage_size'] * 0.8),
-                (int)($attributes['max_storage_size'] * 0.95)
+                (int) ((is_numeric($attributes['max_storage_size'] ?? 0) ? (float) ($attributes['max_storage_size'] ?? 0) : 0) * 0.8),
+                (int) ((is_numeric($attributes['max_storage_size'] ?? 0) ? (float) ($attributes['max_storage_size'] ?? 0) : 0) * 0.95)
             ),
         ]);
     }
 
     /**
      * Create a provider with low usage.
-     *
-     * @return static
      */
     public function lowUsage(): static
     {
         return $this->state(fn (array $attributes) => [
             'used_storage_size' => $this->faker->numberBetween(
                 0,
-                (int)($attributes['max_storage_size'] * 0.3)
+                (int) ((is_numeric($attributes['max_storage_size'] ?? 0) ? (float) ($attributes['max_storage_size'] ?? 0) : 0) * 0.3)
             ),
         ]);
     }
 
     /**
      * Create a provider with encryption enabled.
-     *
-     * @return static
      */
     public function withEncryption(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'encryption_enabled' => true,
             ]),
         ]);
@@ -362,13 +322,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider without encryption.
-     *
-     * @return static
      */
     public function withoutEncryption(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'encryption_enabled' => false,
             ]),
         ]);
@@ -376,13 +334,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with CDN enabled.
-     *
-     * @return static
      */
     public function withCdn(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'cdn_enabled' => true,
             ]),
         ]);
@@ -390,13 +346,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider without CDN.
-     *
-     * @return static
      */
     public function withoutCdn(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'cdn_enabled' => false,
             ]),
         ]);
@@ -404,13 +358,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with versioning enabled.
-     *
-     * @return static
      */
     public function withVersioning(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'versioning_enabled' => true,
             ]),
         ]);
@@ -418,13 +370,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider without versioning.
-     *
-     * @return static
      */
     public function withoutVersioning(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'versioning_enabled' => false,
             ]),
         ]);
@@ -432,13 +382,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with backup enabled.
-     *
-     * @return static
      */
     public function withBackup(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'backup_enabled' => true,
             ]),
         ]);
@@ -446,13 +394,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider without backup.
-     *
-     * @return static
      */
     public function withoutBackup(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'backup_enabled' => false,
             ]),
         ]);
@@ -460,13 +406,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with virus scan enabled.
-     *
-     * @return static
      */
     public function withVirusScan(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'virus_scan_enabled' => true,
             ]),
         ]);
@@ -474,13 +418,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider without virus scan.
-     *
-     * @return static
      */
     public function withoutVirusScan(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'virus_scan_enabled' => false,
             ]),
         ]);
@@ -488,13 +430,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with real-time sync.
-     *
-     * @return static
      */
     public function realtimeSync(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'sync_interval' => 'realtime',
             ]),
         ]);
@@ -502,13 +442,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with daily sync.
-     *
-     * @return static
      */
     public function dailySync(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'sync_interval' => 'daily',
             ]),
         ]);
@@ -516,13 +454,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with weekly sync.
-     *
-     * @return static
      */
     public function weeklySync(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'sync_interval' => 'weekly',
             ]),
         ]);
@@ -530,13 +466,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with high uptime.
-     *
-     * @return static
      */
     public function highUptime(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'uptime_percentage' => $this->faker->randomFloat(2, 99.5, 99.99),
             ]),
         ]);
@@ -544,13 +478,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with low uptime.
-     *
-     * @return static
      */
     public function lowUptime(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'uptime_percentage' => $this->faker->randomFloat(2, 95, 99),
             ]),
         ]);
@@ -558,13 +490,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with fast response time.
-     *
-     * @return static
      */
     public function fastResponse(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'response_time_ms' => $this->faker->numberBetween(10, 100),
             ]),
         ]);
@@ -572,13 +502,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with slow response time.
-     *
-     * @return static
      */
     public function slowResponse(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'response_time_ms' => $this->faker->numberBetween(200, 500),
             ]),
         ]);
@@ -586,13 +514,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with enterprise pricing.
-     *
-     * @return static
      */
     public function enterprise(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'pricing_tier' => 'enterprise',
                 'support_level' => 'dedicated',
             ]),
@@ -601,13 +527,11 @@ class CloudStorageProviderFactory extends Factory
 
     /**
      * Create a provider with free pricing.
-     *
-     * @return static
      */
     public function free(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'pricing_tier' => 'free',
                 'support_level' => 'basic',
             ]),

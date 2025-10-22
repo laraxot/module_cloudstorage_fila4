@@ -29,7 +29,7 @@ class GDriveFileListPage extends Page implements HasTable
             TextColumn::make('modifiedTime')->label('Modificato')->dateTime(),
             TextColumn::make('size')
                 ->label('Dimensione')
-                ->formatStateUsing(fn ($state) => $state ? number_format($state / 1024, 2).' KB' : 'N/A'),
+                ->formatStateUsing(fn ($state) => is_numeric($state) ? number_format((float) $state / 1024, 2).' KB' : 'N/A'),
         ];
     }
     /*

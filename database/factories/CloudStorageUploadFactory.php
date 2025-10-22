@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Modules\CloudStorage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-// use Modules\CloudStorage\Models\CloudStorageUpload; // Model not found
+use Modules\CloudStorage\Models\CloudStorageUpload;
 
 /**
  * CloudStorageUpload factory.
  *
- * @extends Factory<\stdClass> // Using stdClass since CloudStorageUpload model not found
+ * @extends Factory<CloudStorageUpload>
  */
 class CloudStorageUploadFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<\Modules\CloudStorage\Models\CloudStorageUpload>
      */
-    protected $model = \stdClass::class; // Using stdClass since CloudStorageUpload model not found
+    protected $model = CloudStorageUpload::class;
 
     /**
      * Define the model's default state.
@@ -33,8 +33,8 @@ class CloudStorageUploadFactory extends Factory
             'file_id' => $this->faker->numberBetween(1, 10000),
             'provider_id' => $this->faker->numberBetween(1, 100),
             'folder_id' => $this->faker->optional()->numberBetween(1, 1000),
-            'original_filename' => $this->faker->fileName(),
-            'temp_filename' => $this->faker->uuid() . '.tmp',
+            'original_filename' => sprintf('%s.%s', (string) $this->faker->word(), (string) $this->faker->fileExtension()),
+            'temp_filename' => $this->faker->uuid().'.tmp',
             'file_size' => $this->faker->numberBetween(1024, 1073741824), // 1KB to 1GB
             'mime_type' => $this->faker->randomElement(['image/jpeg', 'image/png', 'application/pdf', 'text/plain', 'video/mp4']),
             'upload_status' => $this->faker->randomElement(['pending', 'uploading', 'completed', 'failed', 'cancelled']),
@@ -120,9 +120,33 @@ class CloudStorageUploadFactory extends Factory
     }
 
     /**
-     * Indicate that the upload is pending.
+     * Safely cast metadata to array.
      *
-     * @return static
+     * @return array<string, mixed>
+     */
+    private function safeMetadata(mixed $metadata): array
+    {
+        /** @var array<string, mixed> $result */
+        $result = is_array($metadata) ? $metadata : [];
+
+        return $result;
+    }
+
+    /**
+     * Safely cast settings to array.
+     *
+     * @return array<string, mixed>
+     */
+    private function safeSettings(mixed $settings): array
+    {
+        /** @var array<string, mixed> $result */
+        $result = is_array($settings) ? $settings : [];
+
+        return $result;
+    }
+
+    /**
+     * Indicate that the upload is pending.
      */
     public function pending(): static
     {
@@ -138,8 +162,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Indicate that the upload is in progress.
-     *
-     * @return static
      */
     public function uploading(): static
     {
@@ -155,8 +177,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Indicate that the upload is completed.
-     *
-     * @return static
      */
     public function completed(): static
     {
@@ -173,8 +193,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Indicate that the upload failed.
-     *
-     * @return static
      */
     public function failed(): static
     {
@@ -192,8 +210,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Indicate that the upload was cancelled.
-     *
-     * @return static
      */
     public function cancelled(): static
     {
@@ -209,8 +225,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a small file upload.
-     *
-     * @return static
      */
     public function small(): static
     {
@@ -223,8 +237,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a large file upload.
-     *
-     * @return static
      */
     public function large(): static
     {
@@ -237,20 +249,18 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an image upload.
-     *
-     * @return static
      */
     public function image(): static
     {
         return $this->state(fn (array $attributes) => [
             'mime_type' => $this->faker->randomElement(['image/jpeg', 'image/png', 'image/gif', 'image/webp']),
             'original_filename' => $this->faker->randomElement(['photo.jpg', 'image.png', 'screenshot.gif', 'picture.webp']),
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge($this->safeSettings($attributes['settings'] ?? []), [
                 'generate_thumbnail' => true,
                 'optimize_image' => true,
                 'preserve_exif' => true,
             ]),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'category' => 'image',
             ]),
         ]);
@@ -258,19 +268,17 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a document upload.
-     *
-     * @return static
      */
     public function document(): static
     {
         return $this->state(fn (array $attributes) => [
             'mime_type' => $this->faker->randomElement(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']),
             'original_filename' => $this->faker->randomElement(['document.pdf', 'report.docx', 'notes.txt', 'presentation.pptx']),
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge($this->safeSettings($attributes['settings'] ?? []), [
                 'extract_metadata' => true,
                 'scan_virus' => true,
             ]),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge($this->safeMetadata($attributes['metadata'] ?? []), [
                 'category' => 'document',
             ]),
         ]);
@@ -278,8 +286,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a video upload.
-     *
-     * @return static
      */
     public function video(): static
     {
@@ -287,11 +293,11 @@ class CloudStorageUploadFactory extends Factory
             'mime_type' => $this->faker->randomElement(['video/mp4', 'video/avi', 'video/mov', 'video/wmv']),
             'original_filename' => $this->faker->randomElement(['video.mp4', 'movie.avi', 'clip.mov', 'recording.wmv']),
             'file_size' => $this->faker->numberBetween(10485760, 1073741824), // 10MB to 1GB
-            'settings' => array_merge($attributes['attributes'] ?? [], [
+            'settings' => array_merge($this->safeSettings($attributes['settings'] ?? []), [
                 'extract_metadata' => true,
                 'generate_thumbnail' => true,
             ]),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'category' => 'video',
             ]),
         ]);
@@ -299,18 +305,16 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an audio upload.
-     *
-     * @return static
      */
     public function audio(): static
     {
         return $this->state(fn (array $attributes) => [
             'mime_type' => $this->faker->randomElement(['audio/mpeg', 'audio/wav', 'audio/flac', 'audio/ogg']),
             'original_filename' => $this->faker->randomElement(['song.mp3', 'recording.wav', 'music.flac', 'podcast.ogg']),
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge($this->safeSettings($attributes['settings'] ?? []), [
                 'extract_metadata' => true,
             ]),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'category' => 'audio',
             ]),
         ]);
@@ -318,19 +322,17 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an archive upload.
-     *
-     * @return static
      */
     public function archive(): static
     {
         return $this->state(fn (array $attributes) => [
             'mime_type' => $this->faker->randomElement(['application/zip', 'application/x-rar-compressed', 'application/x-7z-compressed', 'application/x-tar']),
             'original_filename' => $this->faker->randomElement(['archive.zip', 'files.rar', 'backup.7z', 'data.tar']),
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge($this->safeSettings($attributes['settings'] ?? []), [
                 'scan_virus' => true,
                 'extract_metadata' => true,
             ]),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'category' => 'archive',
             ]),
         ]);
@@ -338,8 +340,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a high priority upload.
-     *
-     * @return static
      */
     public function highPriority(): static
     {
@@ -351,8 +351,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a low priority upload.
-     *
-     * @return static
      */
     public function lowPriority(): static
     {
@@ -364,8 +362,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a background upload.
-     *
-     * @return static
      */
     public function background(): static
     {
@@ -377,8 +373,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a foreground upload.
-     *
-     * @return static
      */
     public function foreground(): static
     {
@@ -390,8 +384,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a resumable upload.
-     *
-     * @return static
      */
     public function resumable(): static
     {
@@ -404,8 +396,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a non-resumable upload.
-     *
-     * @return static
      */
     public function nonResumable(): static
     {
@@ -418,8 +408,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an encrypted upload.
-     *
-     * @return static
      */
     public function encrypted(): static
     {
@@ -432,8 +420,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a non-encrypted upload.
-     *
-     * @return static
      */
     public function nonEncrypted(): static
     {
@@ -446,8 +432,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a compressed upload.
-     *
-     * @return static
      */
     public function compressed(): static
     {
@@ -461,8 +445,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a non-compressed upload.
-     *
-     * @return static
      */
     public function nonCompressed(): static
     {
@@ -476,8 +458,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload with notifications.
-     *
-     * @return static
      */
     public function withNotifications(): static
     {
@@ -489,8 +469,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload without notifications.
-     *
-     * @return static
      */
     public function withoutNotifications(): static
     {
@@ -502,8 +480,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload with webhook.
-     *
-     * @return static
      */
     public function withWebhook(): static
     {
@@ -515,8 +491,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload without webhook.
-     *
-     * @return static
      */
     public function withoutWebhook(): static
     {
@@ -528,8 +502,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload with retries.
-     *
-     * @return static
      */
     public function withRetries(): static
     {
@@ -541,8 +513,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload without retries.
-     *
-     * @return static
      */
     public function withoutRetries(): static
     {
@@ -554,8 +524,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a fast upload.
-     *
-     * @return static
      */
     public function fast(): static
     {
@@ -567,8 +535,6 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create a slow upload.
-     *
-     * @return static
      */
     public function slow(): static
     {
@@ -580,13 +546,11 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload from web.
-     *
-     * @return static
      */
     public function fromWeb(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge($this->safeMetadata($attributes['metadata'] ?? []), [
                 'upload_source' => 'web',
                 'browser_info' => $this->faker->userAgent(),
             ]),
@@ -595,13 +559,11 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload from mobile app.
-     *
-     * @return static
      */
     public function fromMobileApp(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'upload_source' => 'mobile_app',
                 'device_info' => $this->faker->randomElement(['iOS 15.0', 'Android 12.0', 'iOS 16.0', 'Android 13.0']),
             ]),
@@ -610,13 +572,11 @@ class CloudStorageUploadFactory extends Factory
 
     /**
      * Create an upload from API.
-     *
-     * @return static
      */
     public function fromApi(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'upload_source' => 'api',
                 'referrer' => $this->faker->url(),
             ]),

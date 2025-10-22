@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Modules\CloudStorage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-// use Modules\CloudStorage\Models\CloudStorageQuota; // Model not found
+use Modules\CloudStorage\Models\CloudStorageQuota;
 
 /**
  * CloudStorageQuota factory.
  *
- * @extends Factory<\stdClass> // Using stdClass since CloudStorageQuota model not found
+ * @extends Factory<CloudStorageQuota>
  */
 class CloudStorageQuotaFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<\Modules\CloudStorage\Models\CloudStorageQuota>
      */
-    protected $model = \stdClass::class; // Using stdClass since CloudStorageQuota model not found
+    protected $model = CloudStorageQuota::class;
 
     /**
      * Define the model's default state.
@@ -89,8 +89,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Indicate that the quota is active.
-     *
-     * @return static
      */
     public function active(): static
     {
@@ -101,8 +99,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Indicate that the quota is inactive.
-     *
-     * @return static
      */
     public function inactive(): static
     {
@@ -113,8 +109,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Indicate that the quota is unlimited.
-     *
-     * @return static
      */
     public function unlimited(): static
     {
@@ -128,8 +122,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Indicate that the quota is limited.
-     *
-     * @return static
      */
     public function limited(): static
     {
@@ -140,8 +132,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a storage quota.
-     *
-     * @return static
      */
     public function storage(): static
     {
@@ -154,8 +144,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a file count quota.
-     *
-     * @return static
      */
     public function fileCount(): static
     {
@@ -168,8 +156,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a bandwidth quota.
-     *
-     * @return static
      */
     public function bandwidth(): static
     {
@@ -182,8 +168,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create an API calls quota.
-     *
-     * @return static
      */
     public function apiCalls(): static
     {
@@ -196,15 +180,13 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with high usage.
-     *
-     * @return static
      */
     public function highUsage(): static
     {
         return $this->state(fn (array $attributes) => [
             'used' => $this->faker->numberBetween(
-                (int)($attributes['limit'] * 0.8),
-                (int)($attributes['limit'] * 0.95)
+                (int) ((is_numeric($attributes['limit'] ?? 0) ? (float) ($attributes['limit'] ?? 0) : 0) * 0.8),
+                (int) ((is_numeric($attributes['limit'] ?? 0) ? (float) ($attributes['limit'] ?? 0) : 0) * 0.95)
             ),
             'percentage_used' => $this->faker->randomFloat(2, 80, 95),
         ]);
@@ -212,15 +194,13 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with low usage.
-     *
-     * @return static
      */
     public function lowUsage(): static
     {
         return $this->state(fn (array $attributes) => [
             'used' => $this->faker->numberBetween(
                 0,
-                (int)($attributes['limit'] * 0.3)
+                (int) ((is_numeric($attributes['limit'] ?? 0) ? (float) ($attributes['limit'] ?? 0) : 0) * 0.3)
             ),
             'percentage_used' => $this->faker->randomFloat(2, 0, 30),
         ]);
@@ -228,15 +208,13 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with critical usage.
-     *
-     * @return static
      */
     public function criticalUsage(): static
     {
         return $this->state(fn (array $attributes) => [
             'used' => $this->faker->numberBetween(
-                (int)($attributes['limit'] * 0.95),
-                (int)($attributes['limit'] * 0.99)
+                (int) ((is_numeric($attributes['limit'] ?? 0) ? (float) ($attributes['limit'] ?? 0) : 0) * 0.95),
+                (int) ((is_numeric($attributes['limit'] ?? 0) ? (float) ($attributes['limit'] ?? 0) : 0) * 0.99)
             ),
             'percentage_used' => $this->faker->randomFloat(2, 95, 99),
             'is_critical_sent' => true,
@@ -246,15 +224,13 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with warning usage.
-     *
-     * @return static
      */
     public function warningUsage(): static
     {
         return $this->state(fn (array $attributes) => [
             'used' => $this->faker->numberBetween(
-                (int)($attributes['limit'] * 0.7),
-                (int)($attributes['limit'] * 0.85)
+                (int) ((is_numeric($attributes['limit'] ?? 0) ? (float) ($attributes['limit'] ?? 0) : 0) * 0.7),
+                (int) ((is_numeric($attributes['limit'] ?? 0) ? (float) ($attributes['limit'] ?? 0) : 0) * 0.85)
             ),
             'percentage_used' => $this->faker->randomFloat(2, 70, 85),
             'is_warning_sent' => true,
@@ -264,8 +240,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a daily reset quota.
-     *
-     * @return static
      */
     public function dailyReset(): static
     {
@@ -277,8 +251,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a weekly reset quota.
-     *
-     * @return static
      */
     public function weeklyReset(): static
     {
@@ -290,8 +262,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a monthly reset quota.
-     *
-     * @return static
      */
     public function monthlyReset(): static
     {
@@ -303,8 +273,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a yearly reset quota.
-     *
-     * @return static
      */
     public function yearlyReset(): static
     {
@@ -316,8 +284,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with no reset.
-     *
-     * @return static
      */
     public function noReset(): static
     {
@@ -330,8 +296,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with grace period.
-     *
-     * @return static
      */
     public function withGracePeriod(): static
     {
@@ -345,8 +309,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota without grace period.
-     *
-     * @return static
      */
     public function withoutGracePeriod(): static
     {
@@ -360,8 +322,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with overage allowed.
-     *
-     * @return static
      */
     public function withOverage(): static
     {
@@ -375,8 +335,6 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota without overage.
-     *
-     * @return static
      */
     public function withoutOverage(): static
     {
@@ -390,13 +348,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a free tier quota.
-     *
-     * @return static
      */
     public function free(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'quota_category' => 'free',
                 'cost_per_gb' => 0,
                 'features_included' => ['encryption', 'backup'],
@@ -407,13 +363,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a basic tier quota.
-     *
-     * @return static
      */
     public function basic(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'quota_category' => 'basic',
                 'cost_per_gb' => $this->faker->randomFloat(4, 0.01, 0.10),
                 'features_included' => ['encryption', 'backup', 'sync'],
@@ -424,13 +378,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a premium tier quota.
-     *
-     * @return static
      */
     public function premium(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'quota_category' => 'premium',
                 'cost_per_gb' => $this->faker->randomFloat(4, 0.05, 0.25),
                 'features_included' => ['encryption', 'backup', 'sync', 'cdn', 'versioning'],
@@ -441,13 +393,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create an enterprise tier quota.
-     *
-     * @return static
      */
     public function enterprise(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'quota_category' => 'enterprise',
                 'cost_per_gb' => $this->faker->randomFloat(4, 0.10, 0.50),
                 'features_included' => ['encryption', 'compression', 'backup', 'sync', 'cdn', 'versioning'],
@@ -459,13 +409,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with notifications enabled.
-     *
-     * @return static
      */
     public function withNotifications(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'notifications_enabled' => true,
                 'email_notifications' => true,
                 'sms_notifications' => $this->faker->boolean(50),
@@ -476,13 +424,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota without notifications.
-     *
-     * @return static
      */
     public function withoutNotifications(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'notifications_enabled' => false,
                 'email_notifications' => false,
                 'sms_notifications' => false,
@@ -493,13 +439,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with auto cleanup enabled.
-     *
-     * @return static
      */
     public function withAutoCleanup(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'auto_cleanup_enabled' => true,
                 'cleanup_threshold' => $this->faker->randomFloat(2, 80, 95),
             ]),
@@ -508,13 +452,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota without auto cleanup.
-     *
-     * @return static
      */
     public function withoutAutoCleanup(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'auto_cleanup_enabled' => false,
             ]),
         ]);
@@ -522,13 +464,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with encryption enabled.
-     *
-     * @return static
      */
     public function withEncryption(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'encryption_enabled' => true,
             ]),
         ]);
@@ -536,13 +476,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota without encryption.
-     *
-     * @return static
      */
     public function withoutEncryption(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'encryption_enabled' => false,
             ]),
         ]);
@@ -550,13 +488,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with backup enabled.
-     *
-     * @return static
      */
     public function withBackup(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'backup_enabled' => true,
             ]),
         ]);
@@ -564,13 +500,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota without backup.
-     *
-     * @return static
      */
     public function withoutBackup(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'backup_enabled' => false,
             ]),
         ]);
@@ -578,13 +512,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota with sync enabled.
-     *
-     * @return static
      */
     public function withSync(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'sync_enabled' => true,
             ]),
         ]);
@@ -592,13 +524,11 @@ class CloudStorageQuotaFactory extends Factory
 
     /**
      * Create a quota without sync.
-     *
-     * @return static
      */
     public function withoutSync(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'sync_enabled' => false,
             ]),
         ]);

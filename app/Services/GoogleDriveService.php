@@ -34,9 +34,18 @@ class GoogleDriveService
             throw new Exception('Utente non autenticato');
         }
 
-        if ($token = $user->getProviderField('google', 'token')) {
-            $this->client->setAccessToken($token);
+        // Usa XotData per ottenere la classe utente corretta
+        $userClass = \Modules\Xot\Datas\XotData::make()->getUserClass();
+        Assert::isInstanceOf($user, $userClass);
+        
+        // Type narrowing per il metodo getProviderField
+        if (method_exists($user, 'getProviderField')) {
+            $token = $user->getProviderField('google', 'token');
+            if (is_string($token) || is_array($token)) {
+                $this->client->setAccessToken($token);
+            }
         }
+        
 
         $this->driveService = new Drive($this->client);
     }
@@ -44,13 +53,33 @@ class GoogleDriveService
     /**
      * Summary of getFiles.
      *
-     * @return array
+     * @return array<int, mixed>
      */
-    public function getFiles()
+    public function getFiles(): array
     {
-        return $this->driveService->files->listFiles([
+        $filesResource = $this->driveService->files;
+        if (!is_object($filesResource)) {
+            return [];
+        }
+        
+        if (!method_exists($filesResource, 'listFiles')) {
+            return [];
+        }
+        
+        $result = $filesResource->listFiles([
             'fields' => 'files(id, name, mimeType, modifiedTime, size)',
             'q' => "'root' in parents and trashed = false",
-        ])->getFiles();
+        ]);
+        
+        if (!is_object($result) || !method_exists($result, 'getFiles')) {
+            return [];
+        }
+        
+        $filesList = $result->getFiles();
+        if (!is_array($filesList)) {
+            return [];
+        }
+        /** @var array<int, mixed> */
+        return $filesList;
     }
 }

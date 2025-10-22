@@ -61,13 +61,13 @@ class GoogleDriveFileListPage extends Page
 
                 TextColumn::make('size')
 
-                    ->formatStateUsing(fn ($state): string => $this->formatFileSize((int) $state)),
+                    ->formatStateUsing(fn ($state): string => is_numeric($state) ? $this->formatFileSize((int) $state) : '0 bytes'),
             ])
             ->recordActions([
                 Action::make('view')
                     ->icon('heroicon-o-eye')
                     ->tooltip(__('View File'))
-                    ->url(fn ($record) => $record['webViewLink'], true),
+                    ->url(fn ($record) => is_array($record) && isset($record['webViewLink']) ? $record['webViewLink'] : '#', true),
                 /*
                 Action::make('share')
                     ->icon('heroicon-o-share')

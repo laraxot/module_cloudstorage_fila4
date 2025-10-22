@@ -1,25 +1,18 @@
-<?php
-
 declare(strict_types=1);
 
 namespace Modules\CloudStorage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-// use Modules\CloudStorage\Models\CloudStorageFolder; // Model not found
+use Modules\Xot\Actions\Cast\SafeArrayCastAction;
 
 /**
  * CloudStorageFolder factory.
  *
- * @extends Factory<\stdClass> // Using stdClass since CloudStorageFolder model not found
+ * @TODO: Implementare il modello CloudStorageFolder - attualmente usa stdClass
  */
 class CloudStorageFolderFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = \stdClass::class; // Using stdClass since CloudStorageFolder model not found
+    protected $model = \stdClass::class;
 
     /**
      * Define the model's default state.
@@ -291,7 +284,7 @@ class CloudStorageFolderFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'name' => $this->faker->randomElement(['Documents', 'Reports', 'Contracts', 'Invoices', 'Receipts']),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'icon' => 'folder-special',
                 'color' => '#2196F3',
                 'description' => 'Document storage folder',
@@ -308,7 +301,7 @@ class CloudStorageFolderFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'name' => $this->faker->randomElement(['Images', 'Videos', 'Music', 'Photos', 'Media']),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'icon' => 'folder-shared',
                 'color' => '#4CAF50',
                 'description' => 'Media storage folder',
@@ -325,7 +318,7 @@ class CloudStorageFolderFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'name' => $this->faker->randomElement(['Work', 'Projects', 'Business', 'Company', 'Office']),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'icon' => 'folder-special',
                 'color' => '#FF9800',
                 'description' => 'Work-related files',
@@ -342,7 +335,7 @@ class CloudStorageFolderFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'name' => $this->faker->randomElement(['Personal', 'Private', 'Home', 'Family', 'Personal']),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'icon' => 'folder',
                 'color' => '#9C27B0',
                 'description' => 'Personal files',
@@ -447,7 +440,7 @@ class CloudStorageFolderFactory extends Factory
     public function withSync(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'sync_enabled' => true,
             ]),
         ]);
@@ -461,7 +454,7 @@ class CloudStorageFolderFactory extends Factory
     public function withoutSync(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'sync_enabled' => false,
             ]),
         ]);
@@ -475,7 +468,7 @@ class CloudStorageFolderFactory extends Factory
     public function withAutoBackup(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'auto_backup' => true,
             ]),
         ]);
@@ -489,7 +482,7 @@ class CloudStorageFolderFactory extends Factory
     public function withoutAutoBackup(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'auto_backup' => false,
             ]),
         ]);

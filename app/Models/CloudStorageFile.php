@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Modules\CloudStorage\Database\Factories\CloudStorageFileFactory;
-use Modules\User\Models\User;
-// use Modules\CloudStorage\Models\CloudStorageFolder; // Model not found
-use Modules\CloudStorage\Models\BaseModel; // Using BaseModel instead
 
 /**
  * Cloud Storage File Model.
@@ -25,35 +22,35 @@ use Modules\CloudStorage\Models\BaseModel; // Using BaseModel instead
  * - Usage analytics and access tracking
  * - File lifecycle management (upload, process, store, delete)
  *
- * @property int $id
- * @property string $name File display name
- * @property string $original_name Original filename when uploaded
- * @property string $mime_type File MIME type
- * @property int $size File size in bytes
- * @property string $path Local storage path
- * @property string $storage_path Cloud storage path
- * @property string $provider Cloud provider (google_drive, dropbox, aws_s3, etc.)
- * @property string|null $bucket Storage bucket/container name
- * @property string|null $region Storage region
- * @property string $status File status (pending, uploading, completed, failed, deleted)
- * @property bool $is_public Whether file is publicly accessible
- * @property bool $is_encrypted Whether file is encrypted
- * @property string|null $encryption_key Encryption key for encrypted files
- * @property string $checksum File integrity checksum
- * @property array<string, mixed> $metadata File metadata (dimensions, duration, etc.)
- * @property array<string, mixed> $settings File processing settings
- * @property int $user_id Owner user ID
- * @property int|null $folder_id Parent folder ID
- * @property Carbon|null $uploaded_at When file was uploaded
- * @property Carbon|null $last_accessed_at Last access timestamp
- * @property int $download_count Download counter
- * @property int $view_count View counter
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property string|null $created_by
- * @property string|null $updated_by
+ * @property int                  $id
+ * @property string               $name             File display name
+ * @property string               $original_name    Original filename when uploaded
+ * @property string               $mime_type        File MIME type
+ * @property int                  $size             File size in bytes
+ * @property string               $path             Local storage path
+ * @property string               $storage_path     Cloud storage path
+ * @property string               $provider         Cloud provider (google_drive, dropbox, aws_s3, etc.)
+ * @property string|null          $bucket           Storage bucket/container name
+ * @property string|null          $region           Storage region
+ * @property string               $status           File status (pending, uploading, completed, failed, deleted)
+ * @property bool                 $is_public        Whether file is publicly accessible
+ * @property bool                 $is_encrypted     Whether file is encrypted
+ * @property string|null          $encryption_key   Encryption key for encrypted files
+ * @property string               $checksum         File integrity checksum
+ * @property array<string, mixed> $metadata         File metadata (dimensions, duration, etc.)
+ * @property array<string, mixed> $settings         File processing settings
+ * @property int                  $user_id          Owner user ID
+ * @property int|null             $folder_id        Parent folder ID
+ * @property Carbon|null          $uploaded_at      When file was uploaded
+ * @property Carbon|null          $last_accessed_at Last access timestamp
+ * @property int                  $download_count   Download counter
+ * @property int                  $view_count       View counter
+ * @property Carbon|null          $created_at
+ * @property Carbon|null          $updated_at
+ * @property string|null          $created_by
+ * @property string|null          $updated_by
  *
- * @method static CloudStorageFileFactory factory($count = null, $state = [])
+ * @method static CloudStorageFileFactory  factory($count = null, $state = [])
  * @method static Builder|CloudStorageFile newModelQuery()
  * @method static Builder|CloudStorageFile newQuery()
  * @method static Builder|CloudStorageFile query()
@@ -125,29 +122,24 @@ class CloudStorageFile extends BaseModel
     }
 
     /**
-     * Create a new factory instance for the model.
-     */
-    protected static function newFactory(): CloudStorageFileFactory
-    {
-        return CloudStorageFileFactory::new();
-    }
-
-    /**
      * Get the user that owns the file.
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        $userClass = \Modules\Xot\Datas\XotData::make()->getUserClass();
+
+        return $this->belongsTo($userClass);
     }
 
     /**
      * Get the folder that contains the file.
+     *
+     * @todo Implement CloudStorageFolder model
      */
-    public function folder(): BelongsTo
-    {
-        // Return a default BelongsTo relationship since CloudStorageFolder model not found
-        return $this->belongsTo(BaseModel::class, 'folder_id');
-    }
+    // public function folder(): BelongsTo
+    // {
+    //     return $this->belongsTo(CloudStorageFolder::class, 'folder_id');
+    // }
 
     /**
      * Scope a query to only include files of a given status.
@@ -213,7 +205,7 @@ class CloudStorageFile extends BaseModel
         $bytes = $this->size;
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
-        for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
+        for ($i = 0; $bytes > 1024 && $i < \count($units) - 1; ++$i) {
             $bytes /= 1024;
         }
 
@@ -249,7 +241,7 @@ class CloudStorageFile extends BaseModel
      */
     public function getIsDocumentAttribute(): bool
     {
-        return in_array($this->mime_type, [
+        return \in_array($this->mime_type, [
             'application/pdf',
             'application/msword',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -257,7 +249,7 @@ class CloudStorageFile extends BaseModel
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'application/vnd.ms-powerpoint',
             'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-        ]);
+        ], true);
     }
 
     /**
@@ -282,7 +274,7 @@ class CloudStorageFile extends BaseModel
      */
     public function isCompleted(): bool
     {
-        return $this->status === 'completed';
+        return 'completed' === $this->status;
     }
 
     /**
@@ -290,7 +282,7 @@ class CloudStorageFile extends BaseModel
      */
     public function isPending(): bool
     {
-        return $this->status === 'pending';
+        return 'pending' === $this->status;
     }
 
     /**
@@ -298,7 +290,7 @@ class CloudStorageFile extends BaseModel
      */
     public function isUploading(): bool
     {
-        return $this->status === 'uploading';
+        return 'uploading' === $this->status;
     }
 
     /**
@@ -306,7 +298,7 @@ class CloudStorageFile extends BaseModel
      */
     public function isFailed(): bool
     {
-        return $this->status === 'failed';
+        return 'failed' === $this->status;
     }
 
     /**
@@ -314,6 +306,6 @@ class CloudStorageFile extends BaseModel
      */
     public function isDeleted(): bool
     {
-        return $this->status === 'deleted';
+        return 'deleted' === $this->status;
     }
 }

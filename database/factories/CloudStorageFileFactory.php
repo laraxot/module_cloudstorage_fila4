@@ -17,7 +17,7 @@ class CloudStorageFileFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<\Modules\CloudStorage\Models\CloudStorageFile>
      */
     protected $model = CloudStorageFile::class;
 
@@ -31,18 +31,18 @@ class CloudStorageFileFactory extends Factory
         return [
             'name' => $this->faker->randomElement([
                 'document.pdf', 'image.jpg', 'video.mp4', 'archive.zip',
-                'spreadsheet.xlsx', 'presentation.pptx', 'code.js', 'data.json'
+                'spreadsheet.xlsx', 'presentation.pptx', 'code.js', 'data.json',
             ]),
-            'original_name' => $this->faker->word() . '.' . $this->faker->fileExtension(),
+            'original_name' => sprintf('%s.%s', $this->faker->word(), (string) $this->faker->randomElement(['pdf', 'jpg', 'mp4', 'zip', 'doc', 'txt'])),
             'mime_type' => $this->faker->randomElement([
                 'application/pdf', 'image/jpeg', 'video/mp4', 'application/zip',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                'application/javascript', 'application/json'
+                'application/javascript', 'application/json',
             ]),
             'size' => $this->faker->numberBetween(1024, 104857600), // 1KB to 100MB
-            'path' => 'files/' . $this->faker->date('Y/m/d/') . $this->faker->uuid() . '.' . $this->faker->fileExtension(),
-            'storage_path' => 'cloud/' . $this->faker->date('Y/m/d/') . $this->faker->uuid() . '.' . $this->faker->fileExtension(),
+            'path' => sprintf('files/%s/%s.%s', $this->faker->date('Y/m/d'), $this->faker->uuid(), (string) $this->faker->randomElement(['pdf', 'jpg', 'mp4', 'zip', 'doc', 'txt'])),
+            'storage_path' => sprintf('cloud/%s/%s.%s', $this->faker->date('Y/m/d'), $this->faker->uuid(), (string) $this->faker->randomElement(['pdf', 'jpg', 'mp4', 'zip', 'doc', 'txt'])),
             'provider' => $this->faker->randomElement(['google_drive', 'dropbox', 'aws_s3', 'azure_blob', 'local']),
             'bucket' => $this->faker->optional()->word(),
             'region' => $this->faker->optional()->randomElement(['us-east-1', 'eu-west-1', 'ap-southeast-1']),
@@ -85,8 +85,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Indicate that the file is pending upload.
-     *
-     * @return static
      */
     public function pending(): static
     {
@@ -98,8 +96,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Indicate that the file is currently uploading.
-     *
-     * @return static
      */
     public function uploading(): static
     {
@@ -111,8 +107,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Indicate that the file upload is completed.
-     *
-     * @return static
      */
     public function completed(): static
     {
@@ -124,8 +118,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Indicate that the file upload failed.
-     *
-     * @return static
      */
     public function failed(): static
     {
@@ -137,8 +129,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Indicate that the file is deleted.
-     *
-     * @return static
      */
     public function deleted(): static
     {
@@ -149,8 +139,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a public file.
-     *
-     * @return static
      */
     public function public(): static
     {
@@ -161,8 +149,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a private file.
-     *
-     * @return static
      */
     public function private(): static
     {
@@ -173,8 +159,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create an encrypted file.
-     *
-     * @return static
      */
     public function encrypted(): static
     {
@@ -186,8 +170,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create an unencrypted file.
-     *
-     * @return static
      */
     public function unencrypted(): static
     {
@@ -199,8 +181,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a small file.
-     *
-     * @return static
      */
     public function small(): static
     {
@@ -211,8 +191,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a large file.
-     *
-     * @return static
      */
     public function large(): static
     {
@@ -223,15 +201,13 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create an image file.
-     *
-     * @return static
      */
     public function image(): static
     {
         return $this->state(fn (array $attributes) => [
             'name' => $this->faker->randomElement(['photo.jpg', 'image.png', 'screenshot.gif', 'banner.webp']),
             'mime_type' => $this->faker->randomElement(['image/jpeg', 'image/png', 'image/gif', 'image/webp']),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'width' => $this->faker->numberBetween(100, 4000),
                 'height' => $this->faker->numberBetween(100, 4000),
             ]),
@@ -240,15 +216,13 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a video file.
-     *
-     * @return static
      */
     public function video(): static
     {
         return $this->state(fn (array $attributes) => [
             'name' => $this->faker->randomElement(['video.mp4', 'movie.avi', 'clip.mov', 'presentation.webm']),
             'mime_type' => $this->faker->randomElement(['video/mp4', 'video/avi', 'video/quicktime', 'video/webm']),
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'duration' => $this->faker->numberBetween(1, 3600),
                 'bitrate' => $this->faker->numberBetween(128, 320),
                 'fps' => $this->faker->randomFloat(1, 24, 60),
@@ -258,8 +232,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a document file.
-     *
-     * @return static
      */
     public function document(): static
     {
@@ -269,16 +241,13 @@ class CloudStorageFileFactory extends Factory
                 'application/pdf',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             ]),
         ]);
     }
 
     /**
      * Create a file for a specific provider.
-     *
-     * @param string $provider
-     * @return static
      */
     public function forProvider(string $provider): static
     {
@@ -289,9 +258,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a file for a specific user.
-     *
-     * @param int $userId
-     * @return static
      */
     public function forUser(int $userId): static
     {
@@ -302,9 +268,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a file in a specific folder.
-     *
-     * @param int $folderId
-     * @return static
      */
     public function inFolder(int $folderId): static
     {
@@ -315,9 +278,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a file with specific size.
-     *
-     * @param int $size
-     * @return static
      */
     public function withSize(int $size): static
     {
@@ -328,9 +288,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a file with specific MIME type.
-     *
-     * @param string $mimeType
-     * @return static
      */
     public function withMimeType(string $mimeType): static
     {
@@ -341,9 +298,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a file with specific status.
-     *
-     * @param string $status
-     * @return static
      */
     public function withStatus(string $status): static
     {
@@ -354,8 +308,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a file with high download count.
-     *
-     * @return static
      */
     public function popular(): static
     {
@@ -367,8 +319,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a file with no downloads.
-     *
-     * @return static
      */
     public function unpopular(): static
     {
@@ -380,8 +330,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a recently accessed file.
-     *
-     * @return static
      */
     public function recentlyAccessed(): static
     {
@@ -392,8 +340,6 @@ class CloudStorageFileFactory extends Factory
 
     /**
      * Create a file that was accessed long ago.
-     *
-     * @return static
      */
     public function notRecentlyAccessed(): static
     {

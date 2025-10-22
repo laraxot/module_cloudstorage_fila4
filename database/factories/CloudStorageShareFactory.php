@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace Modules\CloudStorage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-// use Modules\CloudStorage\Models\CloudStorageShare; // Model not found
+use Modules\CloudStorage\Models\CloudStorageShare;
 
 /**
  * CloudStorageShare factory.
  *
- * @extends Factory<\stdClass> // Using stdClass since CloudStorageShare model not found
+ * @extends Factory<CloudStorageShare>
  */
 class CloudStorageShareFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
-     * @var string
+     * @var class-string<\Modules\CloudStorage\Models\CloudStorageShare>
      */
-    protected $model = \stdClass::class; // Using stdClass since CloudStorageShare model not found
+    protected $model = CloudStorageShare::class;
 
     /**
      * Define the model's default state.
@@ -112,8 +112,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share is public.
-     *
-     * @return static
      */
     public function public(): static
     {
@@ -129,8 +127,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share is private.
-     *
-     * @return static
      */
     public function private(): static
     {
@@ -146,8 +142,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share is restricted.
-     *
-     * @return static
      */
     public function restricted(): static
     {
@@ -163,8 +157,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share is temporary.
-     *
-     * @return static
      */
     public function temporary(): static
     {
@@ -178,8 +170,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share is password protected.
-     *
-     * @return static
      */
     public function passwordProtected(): static
     {
@@ -193,8 +183,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share is active.
-     *
-     * @return static
      */
     public function active(): static
     {
@@ -206,8 +194,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share is inactive.
-     *
-     * @return static
      */
     public function inactive(): static
     {
@@ -218,8 +204,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share is expired.
-     *
-     * @return static
      */
     public function expired(): static
     {
@@ -231,8 +215,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share allows download.
-     *
-     * @return static
      */
     public function downloadable(): static
     {
@@ -243,8 +225,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share does not allow download.
-     *
-     * @return static
      */
     public function nonDownloadable(): static
     {
@@ -255,8 +235,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share allows preview.
-     *
-     * @return static
      */
     public function previewable(): static
     {
@@ -267,8 +245,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share does not allow preview.
-     *
-     * @return static
      */
     public function nonPreviewable(): static
     {
@@ -279,8 +255,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share allows editing.
-     *
-     * @return static
      */
     public function editable(): static
     {
@@ -291,8 +265,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share does not allow editing.
-     *
-     * @return static
      */
     public function nonEditable(): static
     {
@@ -303,8 +275,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share allows comments.
-     *
-     * @return static
      */
     public function commentable(): static
     {
@@ -315,8 +285,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share does not allow comments.
-     *
-     * @return static
      */
     public function nonCommentable(): static
     {
@@ -327,8 +295,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share allows resharing.
-     *
-     * @return static
      */
     public function reshareable(): static
     {
@@ -339,8 +305,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Indicate that the share does not allow resharing.
-     *
-     * @return static
      */
     public function nonReshareable(): static
     {
@@ -351,8 +315,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with download limit.
-     *
-     * @return static
      */
     public function withDownloadLimit(): static
     {
@@ -363,8 +325,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share without download limit.
-     *
-     * @return static
      */
     public function withoutDownloadLimit(): static
     {
@@ -375,8 +335,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with view limit.
-     *
-     * @return static
      */
     public function withViewLimit(): static
     {
@@ -387,8 +345,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share without view limit.
-     *
-     * @return static
      */
     public function withoutViewLimit(): static
     {
@@ -399,8 +355,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with high download count.
-     *
-     * @return static
      */
     public function highDownloads(): static
     {
@@ -411,8 +365,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with low download count.
-     *
-     * @return static
      */
     public function lowDownloads(): static
     {
@@ -423,8 +375,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with high view count.
-     *
-     * @return static
      */
     public function highViews(): static
     {
@@ -435,8 +385,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with low view count.
-     *
-     * @return static
      */
     public function lowViews(): static
     {
@@ -447,8 +395,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with notifications enabled.
-     *
-     * @return static
      */
     public function withNotifications(): static
     {
@@ -461,8 +407,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share without notifications.
-     *
-     * @return static
      */
     public function withoutNotifications(): static
     {
@@ -475,13 +419,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with watermark enabled.
-     *
-     * @return static
      */
     public function withWatermark(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'watermark_enabled' => true,
                 'watermark_text' => $this->faker->company(),
                 'watermark_position' => $this->faker->randomElement(['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center']),
@@ -492,13 +434,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share without watermark.
-     *
-     * @return static
      */
     public function withoutWatermark(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'watermark_enabled' => false,
                 'watermark_text' => null,
                 'watermark_position' => null,
@@ -509,13 +449,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with tracking enabled.
-     *
-     * @return static
      */
     public function withTracking(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'tracking_enabled' => true,
                 'analytics_enabled' => true,
             ]),
@@ -524,13 +462,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share without tracking.
-     *
-     * @return static
      */
     public function withoutTracking(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'tracking_enabled' => false,
                 'analytics_enabled' => false,
             ]),
@@ -539,13 +475,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with high quality.
-     *
-     * @return static
      */
     public function highQuality(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'preview_quality' => 'high',
                 'download_quality' => 'high',
             ]),
@@ -554,13 +488,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with low quality.
-     *
-     * @return static
      */
     public function lowQuality(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'preview_quality' => 'low',
                 'download_quality' => 'low',
             ]),
@@ -569,13 +501,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share with auto delete enabled.
-     *
-     * @return static
      */
     public function withAutoDelete(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'auto_delete' => true,
                 'auto_delete_days' => $this->faker->numberBetween(1, 365),
             ]),
@@ -584,13 +514,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share without auto delete.
-     *
-     * @return static
      */
     public function withoutAutoDelete(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'auto_delete' => false,
                 'auto_delete_days' => null,
             ]),
@@ -599,13 +527,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share requiring login.
-     *
-     * @return static
      */
     public function requiringLogin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'require_login' => true,
             ]),
         ]);
@@ -613,13 +539,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share not requiring login.
-     *
-     * @return static
      */
     public function notRequiringLogin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'require_login' => false,
             ]),
         ]);
@@ -627,13 +551,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a share requiring approval.
-     *
-     * @return static
      */
     public function requiringApproval(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'require_approval' => true,
                 'approval_status' => 'pending',
             ]),
@@ -642,13 +564,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create an approved share.
-     *
-     * @return static
      */
     public function approved(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'require_approval' => true,
                 'approval_status' => 'approved',
                 'approved_by' => $this->faker->numberBetween(1, 1000),
@@ -659,13 +579,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a rejected share.
-     *
-     * @return static
      */
     public function rejected(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge($attributes['settings'] ?? [], [
+            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
                 'require_approval' => true,
                 'approval_status' => 'rejected',
                 'rejection_reason' => $this->faker->sentence(),
@@ -675,13 +593,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a work-related share.
-     *
-     * @return static
      */
     public function work(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'category' => 'work',
                 'business_unit' => $this->faker->randomElement(['marketing', 'sales', 'engineering', 'hr', 'finance', 'operations']),
                 'sensitivity_level' => $this->faker->randomElement(['internal', 'confidential', 'restricted']),
@@ -691,13 +607,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a personal share.
-     *
-     * @return static
      */
     public function personal(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'category' => 'personal',
                 'sensitivity_level' => 'public',
                 'business_unit' => null,
@@ -707,13 +621,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a business share.
-     *
-     * @return static
      */
     public function business(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'category' => 'business',
                 'business_unit' => $this->faker->randomElement(['marketing', 'sales', 'engineering', 'hr', 'finance', 'operations']),
                 'sensitivity_level' => $this->faker->randomElement(['internal', 'confidential', 'restricted']),
@@ -723,13 +635,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a high priority share.
-     *
-     * @return static
      */
     public function highPriority(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'priority' => 'high',
             ]),
         ]);
@@ -737,13 +647,11 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a low priority share.
-     *
-     * @return static
      */
     public function lowPriority(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge($attributes['metadata'] ?? [], [
+            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
                 'priority' => 'low',
             ]),
         ]);
@@ -751,8 +659,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create a popular share.
-     *
-     * @return static
      */
     public function popular(): static
     {
@@ -767,8 +673,6 @@ class CloudStorageShareFactory extends Factory
 
     /**
      * Create an unpopular share.
-     *
-     * @return static
      */
     public function unpopular(): static
     {
