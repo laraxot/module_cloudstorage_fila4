@@ -22,35 +22,35 @@ use Modules\CloudStorage\Database\Factories\CloudStorageFileFactory;
  * - Usage analytics and access tracking
  * - File lifecycle management (upload, process, store, delete)
  *
- * @property int                  $id
- * @property string               $name             File display name
- * @property string               $original_name    Original filename when uploaded
- * @property string               $mime_type        File MIME type
- * @property int                  $size             File size in bytes
- * @property string               $path             Local storage path
- * @property string               $storage_path     Cloud storage path
- * @property string               $provider         Cloud provider (google_drive, dropbox, aws_s3, etc.)
- * @property string|null          $bucket           Storage bucket/container name
- * @property string|null          $region           Storage region
- * @property string               $status           File status (pending, uploading, completed, failed, deleted)
- * @property bool                 $is_public        Whether file is publicly accessible
- * @property bool                 $is_encrypted     Whether file is encrypted
- * @property string|null          $encryption_key   Encryption key for encrypted files
- * @property string               $checksum         File integrity checksum
- * @property array<string, mixed> $metadata         File metadata (dimensions, duration, etc.)
- * @property array<string, mixed> $settings         File processing settings
- * @property int                  $user_id          Owner user ID
- * @property int|null             $folder_id        Parent folder ID
- * @property Carbon|null          $uploaded_at      When file was uploaded
- * @property Carbon|null          $last_accessed_at Last access timestamp
- * @property int                  $download_count   Download counter
- * @property int                  $view_count       View counter
- * @property Carbon|null          $created_at
- * @property Carbon|null          $updated_at
- * @property string|null          $created_by
- * @property string|null          $updated_by
+ * @property int $id
+ * @property string $name File display name
+ * @property string $original_name Original filename when uploaded
+ * @property string $mime_type File MIME type
+ * @property int $size File size in bytes
+ * @property string $path Local storage path
+ * @property string $storage_path Cloud storage path
+ * @property string $provider Cloud provider (google_drive, dropbox, aws_s3, etc.)
+ * @property string|null $bucket Storage bucket/container name
+ * @property string|null $region Storage region
+ * @property string $status File status (pending, uploading, completed, failed, deleted)
+ * @property bool $is_public Whether file is publicly accessible
+ * @property bool $is_encrypted Whether file is encrypted
+ * @property string|null $encryption_key Encryption key for encrypted files
+ * @property string $checksum File integrity checksum
+ * @property array<string, mixed> $metadata File metadata (dimensions, duration, etc.)
+ * @property array<string, mixed> $settings File processing settings
+ * @property int $user_id Owner user ID
+ * @property int|null $folder_id Parent folder ID
+ * @property Carbon|null $uploaded_at When file was uploaded
+ * @property Carbon|null $last_accessed_at Last access timestamp
+ * @property int $download_count Download counter
+ * @property int $view_count View counter
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $created_by
+ * @property string|null $updated_by
  *
- * @method static CloudStorageFileFactory  factory($count = null, $state = [])
+ * @method static CloudStorageFileFactory factory($count = null, $state = [])
  * @method static Builder|CloudStorageFile newModelQuery()
  * @method static Builder|CloudStorageFile newQuery()
  * @method static Builder|CloudStorageFile query()
@@ -205,7 +205,7 @@ class CloudStorageFile extends BaseModel
         $bytes = $this->size;
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
-        for ($i = 0; $bytes > 1024 && $i < \count($units) - 1; ++$i) {
+        for ($i = 0; $bytes > 1024 && $i < \count($units) - 1; $i++) {
             $bytes /= 1024;
         }
 
@@ -274,7 +274,7 @@ class CloudStorageFile extends BaseModel
      */
     public function isCompleted(): bool
     {
-        return 'completed' === $this->status;
+        return $this->status === 'completed';
     }
 
     /**
@@ -282,7 +282,7 @@ class CloudStorageFile extends BaseModel
      */
     public function isPending(): bool
     {
-        return 'pending' === $this->status;
+        return $this->status === 'pending';
     }
 
     /**
@@ -290,7 +290,7 @@ class CloudStorageFile extends BaseModel
      */
     public function isUploading(): bool
     {
-        return 'uploading' === $this->status;
+        return $this->status === 'uploading';
     }
 
     /**
@@ -298,7 +298,7 @@ class CloudStorageFile extends BaseModel
      */
     public function isFailed(): bool
     {
-        return 'failed' === $this->status;
+        return $this->status === 'failed';
     }
 
     /**
@@ -306,6 +306,6 @@ class CloudStorageFile extends BaseModel
      */
     public function isDeleted(): bool
     {
-        return 'deleted' === $this->status;
+        return $this->status === 'deleted';
     }
 }

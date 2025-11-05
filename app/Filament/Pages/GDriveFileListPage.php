@@ -5,11 +5,11 @@ declare(strict_types=1);
 
 namespace Modules\CloudStorage\Filament\Pages;
 
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Modules\CloudStorage\Services\GoogleDriveService;
 
@@ -17,9 +17,11 @@ class GDriveFileListPage extends Page implements HasTable
 {
     use InteractsWithTable;
 
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cloud';
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
+
     protected static ?string $navigationLabel = 'File di Google Drive';
-    protected static string | \UnitEnum | null $navigationGroup = 'Cloud Storage';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Cloud Storage';
 
     public function getTableColumns(): array
     {

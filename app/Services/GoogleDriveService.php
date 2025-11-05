@@ -13,11 +13,12 @@ use Webmozart\Assert\Assert;
 class GoogleDriveService
 {
     protected Client $client;
+
     protected Drive $driveService;
 
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client;
         Assert::string($client_id = config('services.google.client_id'));
         Assert::string($client_secret = config('services.google.client_secret'));
         Assert::string($redirect = config('services.google.redirect'));
@@ -30,14 +31,14 @@ class GoogleDriveService
         $this->client->setAccessType('offline');
 
         $user = auth()->user();
-        if (null == $user) {
+        if ($user == null) {
             throw new Exception('Utente non autenticato');
         }
 
         // Usa XotData per ottenere la classe utente corretta
         $userClass = \Modules\Xot\Datas\XotData::make()->getUserClass();
         Assert::isInstanceOf($user, $userClass);
-        
+
         // Type narrowing per il metodo getProviderField
         if (method_exists($user, 'getProviderField')) {
             $token = $user->getProviderField('google', 'token');
@@ -45,7 +46,6 @@ class GoogleDriveService
                 $this->client->setAccessToken($token);
             }
         }
-        
 
         $this->driveService = new Drive($this->client);
     }
@@ -58,27 +58,28 @@ class GoogleDriveService
     public function getFiles(): array
     {
         $filesResource = $this->driveService->files;
-        if (!is_object($filesResource)) {
+        if (! is_object($filesResource)) {
             return [];
         }
-        
-        if (!method_exists($filesResource, 'listFiles')) {
+
+        if (! method_exists($filesResource, 'listFiles')) {
             return [];
         }
-        
+
         $result = $filesResource->listFiles([
             'fields' => 'files(id, name, mimeType, modifiedTime, size)',
             'q' => "'root' in parents and trashed = false",
         ]);
-        
-        if (!is_object($result) || !method_exists($result, 'getFiles')) {
+
+        if (! is_object($result) || ! method_exists($result, 'getFiles')) {
             return [];
         }
-        
+
         $filesList = $result->getFiles();
-        if (!is_array($filesList)) {
+        if (! is_array($filesList)) {
             return [];
         }
+
         /** @var array<int, mixed> */
         return $filesList;
     }

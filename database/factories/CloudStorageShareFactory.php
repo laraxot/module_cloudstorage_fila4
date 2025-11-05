@@ -423,12 +423,15 @@ class CloudStorageShareFactory extends Factory
     public function withWatermark(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'watermark_enabled' => true,
-                'watermark_text' => $this->faker->company(),
-                'watermark_position' => $this->faker->randomElement(['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center']),
-                'watermark_opacity' => $this->faker->randomFloat(2, 0.1, 1.0),
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'watermark_enabled' => true,
+                    'watermark_text' => $this->faker->company(),
+                    'watermark_position' => $this->faker->randomElement(['top-left', 'top-right', 'bottom-left', 'bottom-right', 'center']),
+                    'watermark_opacity' => $this->faker->randomFloat(2, 0.1, 1.0),
+                ]
+            ),
         ]);
     }
 
@@ -438,12 +441,15 @@ class CloudStorageShareFactory extends Factory
     public function withoutWatermark(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'watermark_enabled' => false,
-                'watermark_text' => null,
-                'watermark_position' => null,
-                'watermark_opacity' => null,
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'watermark_enabled' => false,
+                    'watermark_text' => null,
+                    'watermark_position' => null,
+                    'watermark_opacity' => null,
+                ]
+            ),
         ]);
     }
 
@@ -453,10 +459,13 @@ class CloudStorageShareFactory extends Factory
     public function withTracking(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'tracking_enabled' => true,
-                'analytics_enabled' => true,
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'tracking_enabled' => true,
+                    'analytics_enabled' => true,
+                ]
+            ),
         ]);
     }
 
@@ -466,10 +475,13 @@ class CloudStorageShareFactory extends Factory
     public function withoutTracking(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'tracking_enabled' => false,
-                'analytics_enabled' => false,
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'tracking_enabled' => false,
+                    'analytics_enabled' => false,
+                ]
+            ),
         ]);
     }
 
@@ -479,10 +491,13 @@ class CloudStorageShareFactory extends Factory
     public function highQuality(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'preview_quality' => 'high',
-                'download_quality' => 'high',
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'preview_quality' => 'high',
+                    'download_quality' => 'high',
+                ]
+            ),
         ]);
     }
 
@@ -492,10 +507,13 @@ class CloudStorageShareFactory extends Factory
     public function lowQuality(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'preview_quality' => 'low',
-                'download_quality' => 'low',
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'preview_quality' => 'low',
+                    'download_quality' => 'low',
+                ]
+            ),
         ]);
     }
 
@@ -505,10 +523,13 @@ class CloudStorageShareFactory extends Factory
     public function withAutoDelete(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'auto_delete' => true,
-                'auto_delete_days' => $this->faker->numberBetween(1, 365),
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'auto_delete' => true,
+                    'auto_delete_days' => $this->faker->numberBetween(1, 365),
+                ]
+            ),
         ]);
     }
 
@@ -518,10 +539,13 @@ class CloudStorageShareFactory extends Factory
     public function withoutAutoDelete(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'auto_delete' => false,
-                'auto_delete_days' => null,
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'auto_delete' => false,
+                    'auto_delete_days' => null,
+                ]
+            ),
         ]);
     }
 
@@ -531,9 +555,12 @@ class CloudStorageShareFactory extends Factory
     public function requiringLogin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'require_login' => true,
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'require_login' => true,
+                ]
+            ),
         ]);
     }
 
@@ -543,9 +570,12 @@ class CloudStorageShareFactory extends Factory
     public function notRequiringLogin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'require_login' => false,
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'require_login' => false,
+                ]
+            ),
         ]);
     }
 
@@ -555,10 +585,13 @@ class CloudStorageShareFactory extends Factory
     public function requiringApproval(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'require_approval' => true,
-                'approval_status' => 'pending',
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'require_approval' => true,
+                    'approval_status' => 'pending',
+                ]
+            ),
         ]);
     }
 
@@ -568,12 +601,15 @@ class CloudStorageShareFactory extends Factory
     public function approved(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'require_approval' => true,
-                'approval_status' => 'approved',
-                'approved_by' => $this->faker->numberBetween(1, 1000),
-                'approved_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'require_approval' => true,
+                    'approval_status' => 'approved',
+                    'approved_by' => $this->faker->numberBetween(1, 1000),
+                    'approved_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
+                ]
+            ),
         ]);
     }
 
@@ -583,11 +619,14 @@ class CloudStorageShareFactory extends Factory
     public function rejected(): static
     {
         return $this->state(fn (array $attributes) => [
-            'settings' => array_merge(is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [], [
-                'require_approval' => true,
-                'approval_status' => 'rejected',
-                'rejection_reason' => $this->faker->sentence(),
-            ]),
+            'settings' => array_merge(
+                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                [
+                    'require_approval' => true,
+                    'approval_status' => 'rejected',
+                    'rejection_reason' => $this->faker->sentence(),
+                ]
+            ),
         ]);
     }
 
@@ -597,11 +636,14 @@ class CloudStorageShareFactory extends Factory
     public function work(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
-                'category' => 'work',
-                'business_unit' => $this->faker->randomElement(['marketing', 'sales', 'engineering', 'hr', 'finance', 'operations']),
-                'sensitivity_level' => $this->faker->randomElement(['internal', 'confidential', 'restricted']),
-            ]),
+            'metadata' => array_merge(
+                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                [
+                    'category' => 'work',
+                    'business_unit' => $this->faker->randomElement(['marketing', 'sales', 'engineering', 'hr', 'finance', 'operations']),
+                    'sensitivity_level' => $this->faker->randomElement(['internal', 'confidential', 'restricted']),
+                ]
+            ),
         ]);
     }
 
@@ -611,11 +653,14 @@ class CloudStorageShareFactory extends Factory
     public function personal(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
-                'category' => 'personal',
-                'sensitivity_level' => 'public',
-                'business_unit' => null,
-            ]),
+            'metadata' => array_merge(
+                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                [
+                    'category' => 'personal',
+                    'sensitivity_level' => 'public',
+                    'business_unit' => null,
+                ]
+            ),
         ]);
     }
 
@@ -625,11 +670,14 @@ class CloudStorageShareFactory extends Factory
     public function business(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
-                'category' => 'business',
-                'business_unit' => $this->faker->randomElement(['marketing', 'sales', 'engineering', 'hr', 'finance', 'operations']),
-                'sensitivity_level' => $this->faker->randomElement(['internal', 'confidential', 'restricted']),
-            ]),
+            'metadata' => array_merge(
+                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                [
+                    'category' => 'business',
+                    'business_unit' => $this->faker->randomElement(['marketing', 'sales', 'engineering', 'hr', 'finance', 'operations']),
+                    'sensitivity_level' => $this->faker->randomElement(['internal', 'confidential', 'restricted']),
+                ]
+            ),
         ]);
     }
 
@@ -639,9 +687,12 @@ class CloudStorageShareFactory extends Factory
     public function highPriority(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
-                'priority' => 'high',
-            ]),
+            'metadata' => array_merge(
+                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                [
+                    'priority' => 'high',
+                ]
+            ),
         ]);
     }
 
@@ -651,9 +702,12 @@ class CloudStorageShareFactory extends Factory
     public function lowPriority(): static
     {
         return $this->state(fn (array $attributes) => [
-            'metadata' => array_merge(is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [], [
-                'priority' => 'low',
-            ]),
+            'metadata' => array_merge(
+                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                [
+                    'priority' => 'low',
+                ]
+            ),
         ]);
     }
 

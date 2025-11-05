@@ -18,8 +18,10 @@ class GoogleDriveFileListPage extends Page
 {
     // use InteractsWithTable;
     protected string $view = 'cloudstorage::filament.pages.google-drive-file-list';
-    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cloud';
-    protected static string | \UnitEnum | null $navigationGroup = 'Cloud Storage';
+
+    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
+
+    protected static string|\UnitEnum|null $navigationGroup = 'Cloud Storage';
 
     protected GoogleDriveService $driveService;
 
@@ -52,8 +54,7 @@ class GoogleDriveFileListPage extends Page
 
                     ->searchable(),
 
-                TextColumn::make('mimeType')
-                    ,
+                TextColumn::make('mimeType'),
 
                 TextColumn::make('modifiedTime')
 
