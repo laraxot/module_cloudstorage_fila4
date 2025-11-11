@@ -6,6 +6,7 @@ namespace Modules\CloudStorage\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\CloudStorage\Models\CloudStorageShare;
+use Modules\Xot\Actions\Cast\SafeArrayCastAction;
 
 /**
  * CloudStorageShare factory.
@@ -424,7 +425,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'watermark_enabled' => true,
                     'watermark_text' => $this->faker->company(),
@@ -442,7 +443,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'watermark_enabled' => false,
                     'watermark_text' => null,
@@ -460,7 +461,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'tracking_enabled' => true,
                     'analytics_enabled' => true,
@@ -476,7 +477,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'tracking_enabled' => false,
                     'analytics_enabled' => false,
@@ -492,7 +493,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'preview_quality' => 'high',
                     'download_quality' => 'high',
@@ -508,7 +509,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'preview_quality' => 'low',
                     'download_quality' => 'low',
@@ -524,7 +525,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'auto_delete' => true,
                     'auto_delete_days' => $this->faker->numberBetween(1, 365),
@@ -540,7 +541,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'auto_delete' => false,
                     'auto_delete_days' => null,
@@ -556,7 +557,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'require_login' => true,
                 ]
@@ -571,7 +572,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'require_login' => false,
                 ]
@@ -586,7 +587,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'require_approval' => true,
                     'approval_status' => 'pending',
@@ -602,7 +603,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'require_approval' => true,
                     'approval_status' => 'approved',
@@ -620,7 +621,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'settings' => array_merge(
-                is_array($attributes['settings'] ?? null) ? $attributes['settings'] : [],
+                SafeArrayCastAction::cast($attributes['settings'] ?? null, []),
                 [
                     'require_approval' => true,
                     'approval_status' => 'rejected',
@@ -637,7 +638,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'metadata' => array_merge(
-                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                SafeArrayCastAction::cast($attributes['metadata'] ?? null, []),
                 [
                     'category' => 'work',
                     'business_unit' => $this->faker->randomElement(['marketing', 'sales', 'engineering', 'hr', 'finance', 'operations']),
@@ -654,7 +655,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'metadata' => array_merge(
-                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                SafeArrayCastAction::cast($attributes['metadata'] ?? null, []),
                 [
                     'category' => 'personal',
                     'sensitivity_level' => 'public',
@@ -671,7 +672,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'metadata' => array_merge(
-                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                SafeArrayCastAction::cast($attributes['metadata'] ?? null, []),
                 [
                     'category' => 'business',
                     'business_unit' => $this->faker->randomElement(['marketing', 'sales', 'engineering', 'hr', 'finance', 'operations']),
@@ -688,7 +689,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'metadata' => array_merge(
-                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                SafeArrayCastAction::cast($attributes['metadata'] ?? null, []),
                 [
                     'priority' => 'high',
                 ]
@@ -703,7 +704,7 @@ class CloudStorageShareFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'metadata' => array_merge(
-                is_array($attributes['metadata'] ?? null) ? $attributes['metadata'] : [],
+                SafeArrayCastAction::cast($attributes['metadata'] ?? null, []),
                 [
                     'priority' => 'low',
                 ]
