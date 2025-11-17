@@ -7,8 +7,6 @@ namespace Modules\CloudStorage\Filament\Pages;
 use Filament\Actions\Action;
 use Filament\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Modules\CloudStorage\Services\GoogleDriveService;
 
@@ -25,15 +23,6 @@ class GoogleDriveFileListPage extends Page
 
     protected GoogleDriveService $driveService;
 
-    public function mount(GoogleDriveService $driveService): void
-    {
-        $this->driveService = $driveService;
-
-        dddx([
-            'listFiles' => $this->driveService->getFiles(),
-        ]);
-    }
-
     /*
     public function __construct()
     {
@@ -44,6 +33,15 @@ class GoogleDriveFileListPage extends Page
     public function setUp(): void
     {
         dddx('c');
+    }
+
+    public function mount(GoogleDriveService $driveService): void
+    {
+        $this->driveService = $driveService;
+
+        dddx([
+            'listFiles' => $this->driveService->getFiles(),
+        ]);
     }
 
     public function table(Table $table): Table
@@ -96,9 +94,11 @@ class GoogleDriveFileListPage extends Page
     {
         if ($size >= 1073741824) {
             return number_format($size / 1073741824, 2).' GB';
-        } elseif ($size >= 1048576) {
+        }
+        if ($size >= 1048576) {
             return number_format($size / 1048576, 2).' MB';
-        } elseif ($size >= 1024) {
+        }
+        if ($size >= 1024) {
             return number_format($size / 1024, 2).' KB';
         }
 

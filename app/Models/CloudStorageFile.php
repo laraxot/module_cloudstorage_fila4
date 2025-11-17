@@ -98,30 +98,6 @@ class CloudStorageFile extends BaseModel
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'size' => 'integer',
-            'is_public' => 'boolean',
-            'is_encrypted' => 'boolean',
-            'metadata' => 'array',
-            'settings' => 'array',
-            'user_id' => 'integer',
-            'folder_id' => 'integer',
-            'download_count' => 'integer',
-            'view_count' => 'integer',
-            'uploaded_at' => 'datetime',
-            'last_accessed_at' => 'datetime',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-        ];
-    }
-
-    /**
      * Get the user that owns the file.
      */
     public function user(): BelongsTo
@@ -307,5 +283,29 @@ class CloudStorageFile extends BaseModel
     public function isDeleted(): bool
     {
         return $this->status === 'deleted';
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'size' => 'integer',
+            'is_public' => 'boolean',
+            'is_encrypted' => 'boolean',
+            'metadata' => 'array',
+            'settings' => 'array',
+            'user_id' => 'integer',
+            'folder_id' => 'integer',
+            'download_count' => 'integer',
+            'view_count' => 'integer',
+            'uploaded_at' => 'datetime',
+            'last_accessed_at' => 'datetime',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+        ];
     }
 }
