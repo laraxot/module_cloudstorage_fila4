@@ -18,7 +18,7 @@ class GoogleDriveService
 
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client;
         Assert::string($client_id = config('services.google.client_id'));
         Assert::string($client_secret = config('services.google.client_secret'));
         Assert::string($redirect = config('services.google.redirect'));
