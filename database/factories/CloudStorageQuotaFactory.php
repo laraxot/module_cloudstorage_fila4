@@ -17,7 +17,7 @@ class CloudStorageQuotaFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\Modules\CloudStorage\Models\CloudStorageQuota>
+     * @var class-string<CloudStorageQuota>
      */
     protected $model = CloudStorageQuota::class;
 

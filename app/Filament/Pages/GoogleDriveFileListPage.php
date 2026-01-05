@@ -17,7 +17,7 @@ class GoogleDriveFileListPage extends Page
     // use InteractsWithTable;
     protected string $view = 'cloudstorage::filament.pages.google-drive-file-list';
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cloud';
 
     protected GoogleDriveService $driveService;
 

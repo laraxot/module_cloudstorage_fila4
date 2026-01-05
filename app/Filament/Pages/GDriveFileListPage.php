@@ -14,7 +14,7 @@ class GDriveFileListPage extends Page implements HasTable
 {
     use InteractsWithTable;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-cloud';
 
     protected static ?string $navigationLabel = 'File di Google Drive';
 

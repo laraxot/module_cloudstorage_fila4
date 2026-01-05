@@ -17,7 +17,7 @@ class CloudStorageFileFactory extends Factory
     /**
      * The name of the factory's corresponding model.
      *
-     * @var class-string<\Modules\CloudStorage\Models\CloudStorageFile>
+     * @var class-string<CloudStorageFile>
      */
     protected $model = CloudStorageFile::class;
 

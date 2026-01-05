@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\CloudStorage\Models;
 
+use Modules\Xot\Datas\XotData;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -102,7 +103,7 @@ class CloudStorageFile extends BaseModel
      */
     public function user(): BelongsTo
     {
-        $userClass = \Modules\Xot\Datas\XotData::make()->getUserClass();
+        $userClass = XotData::make()->getUserClass();
 
         return $this->belongsTo($userClass);
     }

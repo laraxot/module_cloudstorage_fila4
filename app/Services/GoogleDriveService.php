@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Modules\CloudStorage\Services;
 
+use Modules\Xot\Datas\XotData;
 use Exception;
 use Google\Client;
 use Google\Service\Drive;
@@ -36,7 +37,7 @@ class GoogleDriveService
         }
 
         // Usa XotData per ottenere la classe utente corretta
-        $userClass = \Modules\Xot\Datas\XotData::make()->getUserClass();
+        $userClass = XotData::make()->getUserClass();
         Assert::isInstanceOf($user, $userClass);
 
         // Type narrowing per il metodo getProviderField
