@@ -18,8 +18,6 @@ class GDriveFileListPage extends Page implements HasTable
 
     protected static ?string $navigationLabel = 'File di Google Drive';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Cloud Storage';
-
     public function getTableColumns(): array
     {
         return [

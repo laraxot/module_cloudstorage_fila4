@@ -33,11 +33,5 @@
     "require": {
         "spatie/laravel-google-cloud-storage": "^2.3",
         "google/apiclient": "^2.18"
-<<<<<<< HEAD
-    },
-    "require-dev": {
-        "psalm/plugin-laravel": "^2.12"
-=======
->>>>>>> 133275d (.)
     }
 }

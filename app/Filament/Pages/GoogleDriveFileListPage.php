@@ -19,8 +19,6 @@ class GoogleDriveFileListPage extends Page
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Cloud Storage';
-
     protected GoogleDriveService $driveService;
 
     /*
