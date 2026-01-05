@@ -35,6 +35,6 @@
         "google/apiclient": "^2.18"
     },
     "require-dev": {
-        "psalm/plugin-laravel": "^2.12"
+        "psalm/plugin-laravel": "^3.0"
     }
 }
