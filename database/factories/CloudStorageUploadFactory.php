@@ -34,7 +34,7 @@ class CloudStorageUploadFactory extends Factory
             'provider_id' => $this->faker->numberBetween(1, 100),
             'folder_id' => $this->faker->optional()->numberBetween(1, 1000),
             'original_filename' => sprintf('%s.%s', (string) $this->faker->word(), (string) $this->faker->fileExtension()),
-            'temp_filename' => $this->faker->uuid().'.tmp',
+            'temp_filename' => $this->faker->uuid() . '.tmp',
             'file_size' => $this->faker->numberBetween(1024, 1073741824), // 1KB to 1GB
             'mime_type' => $this->faker->randomElement(['image/jpeg', 'image/png', 'application/pdf', 'text/plain', 'video/mp4']),
             'upload_status' => $this->faker->randomElement(['pending', 'uploading', 'completed', 'failed', 'cancelled']),
@@ -117,32 +117,6 @@ class CloudStorageUploadFactory extends Factory
                 'shares' => $this->faker->optional()->numberBetween(0, 1000),
             ],
         ];
-    }
-
-    /**
-     * Safely cast metadata to array.
-     *
-     * @return array<string, mixed>
-     */
-    private function safeMetadata(mixed $metadata): array
-    {
-        /** @var array<string, mixed> $result */
-        $result = is_array($metadata) ? $metadata : [];
-
-        return $result;
-    }
-
-    /**
-     * Safely cast settings to array.
-     *
-     * @return array<string, mixed>
-     */
-    private function safeSettings(mixed $settings): array
-    {
-        /** @var array<string, mixed> $result */
-        $result = is_array($settings) ? $settings : [];
-
-        return $result;
     }
 
     /**
@@ -581,5 +555,31 @@ class CloudStorageUploadFactory extends Factory
                 'referrer' => $this->faker->url(),
             ]),
         ]);
+    }
+
+    /**
+     * Safely cast metadata to array.
+     *
+     * @return array<string, mixed>
+     */
+    private function safeMetadata(mixed $metadata): array
+    {
+        /** @var array<string, mixed> $result */
+        $result = is_array($metadata) ? $metadata : [];
+
+        return $result;
+    }
+
+    /**
+     * Safely cast settings to array.
+     *
+     * @return array<string, mixed>
+     */
+    private function safeSettings(mixed $settings): array
+    {
+        /** @var array<string, mixed> $result */
+        $result = is_array($settings) ? $settings : [];
+
+        return $result;
     }
 }
