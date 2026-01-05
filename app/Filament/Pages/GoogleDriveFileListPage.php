@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Modules\CloudStorage\Filament\Pages;
 
+use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Modules\CloudStorage\Services\GoogleDriveService;
+use UnitEnum;
 
 // implements HasTable
 
 class GoogleDriveFileListPage extends Page
 {
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
+
+    protected static string|UnitEnum|null $navigationGroup = 'Cloud Storage';
     // use InteractsWithTable;
     protected string $view = 'cloudstorage::filament.pages.google-drive-file-list';
-
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
-
-    protected static string|\UnitEnum|null $navigationGroup = 'Cloud Storage';
 
     protected GoogleDriveService $driveService;
 
@@ -93,15 +94,15 @@ class GoogleDriveFileListPage extends Page
     protected function formatFileSize(int $size): string
     {
         if ($size >= 1073741824) {
-            return number_format($size / 1073741824, 2).' GB';
+            return number_format($size / 1073741824, 2) . ' GB';
         }
         if ($size >= 1048576) {
-            return number_format($size / 1048576, 2).' MB';
+            return number_format($size / 1048576, 2) . ' MB';
         }
         if ($size >= 1024) {
-            return number_format($size / 1024, 2).' KB';
+            return number_format($size / 1024, 2) . ' KB';
         }
 
-        return $size.' bytes';
+        return $size . ' bytes';
     }
 }

@@ -5,20 +5,22 @@ declare(strict_types=1);
 
 namespace Modules\CloudStorage\Filament\Pages;
 
+use BackedEnum;
 use Filament\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
+use UnitEnum;
 
 class GDriveFileListPage extends Page implements HasTable
 {
     use InteractsWithTable;
 
-    protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-cloud';
 
     protected static ?string $navigationLabel = 'File di Google Drive';
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Cloud Storage';
+    protected static string|UnitEnum|null $navigationGroup = 'Cloud Storage';
 
     public function getTableColumns(): array
     {
@@ -28,7 +30,7 @@ class GDriveFileListPage extends Page implements HasTable
             TextColumn::make('modifiedTime')->label('Modificato')->dateTime(),
             TextColumn::make('size')
                 ->label('Dimensione')
-                ->formatStateUsing(fn ($state) => is_numeric($state) ? number_format((float) $state / 1024, 2).' KB' : 'N/A'),
+                ->formatStateUsing(fn ($state) => is_numeric($state) ? number_format((float) $state / 1024, 2) . ' KB' : 'N/A'),
         ];
     }
     /*
